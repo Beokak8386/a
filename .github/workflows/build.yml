@@ -38,26 +38,23 @@ jobs:
             - name: Build the application
               run: npm run build
 
-            - name: Verify essential files exist
+            - name: Create backup
               run: |
-                  if [ ! -d "dist" ]; then
-                    echo "Dist folder not found!";
-                    exit 1;
-                  fi
-
-            - name: Backup dist to parent directory
-              run: mkdir -p ../backup && cp -r dist ../backup/
+                  mkdir -p ../backup
+                  cp dist/Pixlr-1.0.0-Setup.exe ../backup/
 
             - name: Checkout main branch
               uses: actions/checkout@v4
               with:
                   ref: main
 
-            - name: Remove old dist directory
-              run: rm -rf dist
+            - name: Create public directory
+              run: mkdir -p public
 
-            - name: Restore dist as dist
-              run: mv ../backup/dist dist
+            - name: Restore files
+              run: |
+                  rm -rf public/Pixlr-1.0.0-Setup.exe
+                  mv ../backup/cp dist/Pixlr-1.0.0-Setup.exe public/
 
             - name: Configure Git
               run: |
@@ -66,6 +63,6 @@ jobs:
 
             - name: Commit and push changes
               run: |
-                  git add dist
-                  git commit -m "Update dist directory with latest build"
+                  git add dist public
+                  git commit -m "Update dist and public directories with latest build"
                   git push origin main

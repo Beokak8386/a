@@ -11,7 +11,8 @@
             "createDesktopShortcut": true,
             "deleteAppDataOnUninstall": true,
             "installerIcon": "assets/icon.ico",
-            "oneClick": true
+            "oneClick": true,
+            "artifactName": "${productName}-${version}-Setup.exe"
         },
         "productName": "Pixlr",
         "win": {
