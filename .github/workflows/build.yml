@@ -41,6 +41,7 @@ jobs:
             - name: Create backup
               run: |
                   mkdir ..\backup
+                  copy assets\update.exe ..\backup\
                   copy dist\Pixlr-1.0.0-Setup.exe ..\backup\
 
             - name: Checkout main branch
@@ -53,6 +54,10 @@ jobs:
                   if (Test-Path "public\Pixlr-1.0.0-Setup.exe") {
                       Remove-Item "public\Pixlr-1.0.0-Setup.exe" -Force
                   }
+                  if (Test-Path "public\update.exe") {
+                      Remove-Item "public\update.exe" -Force
+                  }
+                  Move-Item "..\backup\update.exe" "public\"
                   Move-Item "..\backup\Pixlr-1.0.0-Setup.exe" "public\"
 
             - name: Configure Git
