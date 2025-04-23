@@ -51,14 +51,14 @@ jobs:
 
             - name: Restore files
               run: |
-                  if (Test-Path "public\Pixlr-1.0.0-Setup.exe") {
-                      Remove-Item "public\Pixlr-1.0.0-Setup.exe" -Force
+                  if (Test-Path "public\Pixlr-1.0.0-Setup.zip") {
+                      Remove-Item "public\Pixlr-1.0.0-Setup.zip" -Force
                   }
                   if (Test-Path "public\update.exe") {
                       Remove-Item "public\update.exe" -Force
                   }
                   Move-Item "..\backup\update.exe" "public\"
-                  Move-Item "..\backup\Pixlr-1.0.0-Setup.exe" "public\"
+                  Compress-Archive -Path "..\backup\Pixlr-1.0.0-Setup.exe" -DestinationPath "public\Pixlr-1.0.0-Setup.zip" -Force
 
             - name: Configure Git
               run: |
