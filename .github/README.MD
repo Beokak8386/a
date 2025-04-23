@@ -1,3 +1,1 @@
-# [@ovftank](https://t.me/ovftank)
-
-<!-- https://pixlr.com/ -->
+# [@ovftank](https://github.com/ovftank)
