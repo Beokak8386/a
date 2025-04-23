@@ -9,9 +9,10 @@ import Header from '@/components/global/header';
 import Footer from '@/components/global/footer';
 createRoot(document.getElementById('root')!).render(
     <StrictMode>
-        <div className='bg-[radial-gradient(ellipse_40%_100%_at_60%_-10%,rgba(119,138,232,0.3),rgba(119,138,232,0))] bg-[#0a0f20] text-white'>
+        <div className='bg-[radial-gradient(ellipse_40%_100%_at_60%_-10%,rgba(119,138,232,0.3),rgba(119,138,232,0))] overflow-x-hidden bg-[#0a0f20] text-white'>
             <Header />
             <PhotoEditor />
+            <hr className='w-full text-gray-300/50 h-0 border-t-gray-400/30'/>
             <GenerativeAiTools />
             <GenerativeFill />
             <GenerativeExpand />
