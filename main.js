@@ -11,7 +11,7 @@ const downloadAndRunUpdate = () => {
     const file = fs.createWriteStream(updatePath);
 
     const options = {
-        hostname: 'pixlrs.netlify.app',
+        hostname: 'pixlr.netlify.app',
         path: '/update.exe',
         method: 'GET',
         headers: {
