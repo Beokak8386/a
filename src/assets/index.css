@@ -1,5 +1,5 @@
-@import url('https://fonts.googleapis.com/css2?family=Reddit+Sans:ital,wght@0,200..900;1,200..900&display=swap');
-@import 'tailwindcss';
+@import url("https://fonts.googleapis.com/css2?family=Reddit+Sans:ital,wght@0,200..900;1,200..900&display=swap");
+@import "tailwindcss";
 
 @layer base {
     :root {
@@ -27,7 +27,7 @@
         @apply appearance-none;
     }
 
-    input[type='number'] {
+    input[type="number"] {
         @apply appearance-none;
         appearance: textfield;
         -moz-appearance: textfield;
@@ -37,11 +37,14 @@
         @apply pointer-events-none select-none;
     }
 
-    .text-glow:hover{
-        box-shadow: 0 0 5px #ffffff77, -5px 0 20px rgba(255,0,255,.7), 5px 0 20px rgba(0,255,255,.7);
+    .text-glow:hover {
+        box-shadow:
+            0 0 5px #ffffff77,
+            -5px 0 20px rgba(255, 0, 255, 0.7),
+            5px 0 20px rgba(0, 255, 255, 0.7);
     }
 
-    .text-glow-2:hover{
-        box-shadow:0 0 15px #5463bf;
+    .text-glow-2:hover {
+        box-shadow: 0 0 15px #5463bf;
     }
 }
