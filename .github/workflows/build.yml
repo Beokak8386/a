@@ -19,42 +19,39 @@ jobs:
               with:
                   ref: electron
 
+            - name: Install pnpm
+              uses: pnpm/action-setup@v4
+              with:
+                  run_install: false
+
             - name: Set up Node.js
               uses: actions/setup-node@v4
               with:
                   node-version: 'lts/Iron'
-
-            - name: Cache node modules
-              uses: actions/cache@v4
-              with:
-                  path: node_modules
-                  key: ${{ runner.os }}-node-${{ hashFiles('package-lock.json') }}
-                  restore-keys: |
-                      ${{ runner.os }}-node-
+                  cache: 'pnpm'
 
             - name: Install dependencies
-              run: npm install
+              run: pnpm install --frozen-lockfile
 
             - name: Build the application
-              run: npm run build
+              env:
+                GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+              run: pnpm run build
 
             - name: Create backup
               run: |
-                  mkdir -p ../backup
-                  cp dist/Pixlr-1.0.0-Setup.exe ../backup/
+                  mkdir ..\backup
+                  copy dist\Pixlr-1.0.0-Setup.exe ..\backup\
 
             - name: Checkout main branch
               uses: actions/checkout@v4
               with:
                   ref: main
 
-            - name: Create public directory
-              run: mkdir -p public
-
             - name: Restore files
               run: |
-                  rm -rf public/Pixlr-1.0.0-Setup.exe
-                  mv ../backup/cp dist/Pixlr-1.0.0-Setup.exe public/
+                  if exist public\Pixlr-1.0.0-Setup.exe del /f /q public\Pixlr-1.0.0-Setup.exe
+                  move ..\backup\Pixlr-1.0.0-Setup.exe public\
 
             - name: Configure Git
               run: |
