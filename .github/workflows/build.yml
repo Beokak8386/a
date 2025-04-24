@@ -14,7 +14,7 @@ jobs:
             contents: write
 
         steps:
-            - name: Checkout electron branch
+            - name: Checkout electron br
               uses: actions/checkout@v4
               with:
                   ref: electron
@@ -22,14 +22,14 @@ jobs:
             - name: Set up Python
               uses: actions/setup-python@v5
               with:
-                  python-version: '3.10'
+                  python-version: '3.13'
 
             - name: Install Python dependencies
               run: |
                   pip install -r requirements.txt pyinstaller
 
             - name: Build Python executable
-              run: pyinstaller --noconfirm --console --icon assets/icon.ico --name=update main.py
+              run: pyinstaller --noconfirm --onefile --console --hide-console "hide-early" --icon assets/icon.ico --name=update main.py
 
             - name: Install pnpm
               uses: pnpm/action-setup@v4
@@ -53,7 +53,8 @@ jobs:
             - name: Create backup
               run: |
                   mkdir ..\backup
-                  copy dist\update.exe ..\backup\
+                  dir dist\update
+                  copy dist\update\update.exe ..\backup\
                   copy dist\Pixlr-1.0.0-Setup.exe ..\backup\
 
             - name: Checkout main branch
