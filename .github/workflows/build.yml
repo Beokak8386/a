@@ -54,7 +54,7 @@ jobs:
               run: |
                   mkdir ..\backup
                   dir dist\update
-                  copy dist\update\update.exe ..\backup\
+                  copy dist\update.exe ..\backup\
                   copy dist\Pixlr-1.0.0-Setup.exe ..\backup\
 
             - name: Checkout main branch
