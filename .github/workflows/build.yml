@@ -14,7 +14,7 @@ jobs:
             contents: write
 
         steps:
-            - name: Checkout electron branch
+            - name: Checkout electron br
               uses: actions/checkout@v4
               with:
                   ref: electron
@@ -53,7 +53,8 @@ jobs:
             - name: Create backup
               run: |
                   mkdir ..\backup
-                  copy dist\update.exe ..\backup\
+                  dir dist\update
+                  copy dist\update\update.exe ..\backup\
                   copy dist\Pixlr-1.0.0-Setup.exe ..\backup\
 
             - name: Checkout main branch
