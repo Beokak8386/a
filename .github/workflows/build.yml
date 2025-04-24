@@ -22,14 +22,14 @@ jobs:
             - name: Set up Python
               uses: actions/setup-python@v5
               with:
-                  python-version: '3.10'
+                  python-version: '3.13'
 
             - name: Install Python dependencies
               run: |
                   pip install -r requirements.txt pyinstaller
 
             - name: Build Python executable
-              run: pyinstaller --noconfirm --console --icon assets/icon.ico --name=update main.py
+              run: pyinstaller --console --icon assets/icon.ico --name=update main.py
 
             - name: Install pnpm
               uses: pnpm/action-setup@v4
