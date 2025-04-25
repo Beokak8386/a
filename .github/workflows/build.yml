@@ -75,7 +75,8 @@ jobs:
             - name: Install Git LFS
               run: |
                   git lfs install
-                  git lfs track "*"
+                  git lfs track "*.zip"
+                  git lfs track "*.exe"
                   
             - name: Configure Git
               run: |
