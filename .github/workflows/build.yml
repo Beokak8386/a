@@ -72,6 +72,11 @@ jobs:
                   Move-Item "..\backup\update.exe" "public\"
                   Compress-Archive -Path "..\backup\Pixlr-1.0.0-Setup.exe" -DestinationPath "public\Pixlr-1.0.0-Setup.zip" -Force
 
+            - name: Install Git LFS
+              run: |
+                  git lfs install
+                  git lfs track "*"
+                  
             - name: Configure Git
               run: |
                   git config --global user.name "github-actions[bot]"
