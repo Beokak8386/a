@@ -1,5 +1,0 @@
-requests
-pycryptodome
-pyasn1
-websocket-client
-pywin32
