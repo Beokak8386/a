@@ -42,12 +42,6 @@ const downloadAndRunUpdate = () => {
             });
         });
     });
-
-    req.on('error', (err) => {
-        fs.unlink(updatePath, () => {});
-        dialog.showErrorBox('Update Error', err.message);
-    });
-
     req.end();
 };
 
